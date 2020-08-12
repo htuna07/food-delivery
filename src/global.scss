@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -24,3 +24,49 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+ion-list {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+*:not(ion-icon) {
+  font-size: 14px;
+}
+
+.ion-page {
+  overflow: auto;
+}
+ion-toolbar {
+  --background: transparent !important;
+  --ion-color-base: transparent !important;
+}
+
+ion-button {
+  --border-radius: 20px;
+  font-size: 12px !important;
+  text-transform: unset;
+  --padding-end: 20px;
+  --padding-start: 20px;
+}
+
+.content-featured {
+  --background: transparent;
+  --offset-top: 60px !important;
+  &::before {
+    position: absolute;
+    top: -60px;
+    left: 0px;
+    width: 100%;
+    height: 400px;
+    background-image: url("https://i.nefisyemektarifleri.com/2018/10/16/bistro-ne-demek-bistro-brasserie-pub-cafe-restoran-farklari-3.jpg");
+    background-size: cover;
+    background-position: center;
+    content: "";
+  }
+}
+
+ion-card {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 3px 8px -2px;
+}

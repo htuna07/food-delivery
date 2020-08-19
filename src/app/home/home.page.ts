@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserService } from "../service/user.service";
 import { take, tap } from "rxjs/operators";
@@ -13,8 +13,6 @@ import { StorageService } from "../service/storage.service";
 export class HomePage {
   username;
   password;
-
-  SECRET = "secret_key";
 
   constructor(
     private router: Router,
@@ -51,5 +49,7 @@ export class HomePage {
       .subscribe();
   }
 
-  register() {}
+  register() {
+    this.router.navigate(["profile"]);
+  }
 }

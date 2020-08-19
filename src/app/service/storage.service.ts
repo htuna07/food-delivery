@@ -117,13 +117,10 @@ export class StorageService {
   }
 
   addToCart(food: Food, amount: number) {
-    console.log(food)
     let count = this.cart.get(food) || 0;
     count += amount;
 
     this.cart.set(food, count);
-
-    console.log(this.cart)
   }
 
   removeFromCart(food: Food) {

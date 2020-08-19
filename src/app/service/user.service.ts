@@ -55,7 +55,11 @@ export class UserService {
         return user;
       }
     });
-    console.log(this.users);
     return of(updated);
+  }
+
+  register(user: User) {
+    user._id = (this.users.length + 1).toString();
+    this.users.push(user);
   }
 }

@@ -32,12 +32,16 @@ export class AppComponent {
     });
   }
 
+  isLoggedIn() {
+    return this.storageService.getUserId() ? true : false;
+  }
+
   logOut() {
     this.storageService.logOut();
     this.router.navigate(["home"]);
   }
 
   toggleMenu() {
-    this.menuCtrl.toggle(); 
+    this.menuCtrl.toggle();
   }
 }

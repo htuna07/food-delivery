@@ -5,7 +5,7 @@ import { of, Observable } from "rxjs";
   providedIn: "root",
 })
 export class UserService {
-  users: User[] = [
+  users: any[] = [
     {
       _id: "1",
       name: "Kayne",
@@ -35,7 +35,7 @@ export class UserService {
 
   constructor() {}
 
-  find(username: string, password: string): Observable<User> {
+  find(username: string, password: string): Observable<any> {
     return of(
       this.users.find(
         (user) => user.email == username && user.password == password
@@ -43,11 +43,11 @@ export class UserService {
     );
   }
 
-  get(userId: string): Observable<User> {
+  get(userId: string): Observable<any> {
     return of(this.users.find((user) => user._id == userId));
   }
 
-  update(updated: User) {
+  update(updated: any) {
     this.users = this.users.map((user) => {
       if (user._id == updated._id) {
         return updated;
@@ -58,7 +58,7 @@ export class UserService {
     return of(updated);
   }
 
-  register(user: User) {
+  register(user: any) {
     user._id = (this.users.length + 1).toString();
     this.users.push(user);
   }

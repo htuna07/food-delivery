@@ -40,10 +40,11 @@
     <ion-card-content>
       <p>
         <ion-chip
-          (click)="updateIngredients(ingredient, 'defaults')"
-          *ngFor="let ingredient of food.ingredients"
+          (click)="updateIngredients(ingredient.name, 'removeds')"
+          *ngFor="let ingredient of food.removable_ingredients"
+          [disabled]="extras.includes(ingredient.name)"
           [color]="
-            orderFood.ingredients.includes(ingredient) ? 'tertiary' : 'danger'
+            removeds.includes(ingredient.name) ? 'danger' : 'tertiary'
           "
         >
           <ion-label>
@@ -65,10 +66,11 @@
     <ion-card-content>
       <p>
         <ion-chip
-          (click)="updateIngredients(ingredient, 'extras')"
+          (click)="updateIngredients(ingredient.name, 'extras')"
           *ngFor="let ingredient of food.extra_ingredients"
+          [disabled]="removeds.includes(ingredient.name)"
           [color]="
-            orderFood.extra_ingredients.includes(ingredient)
+            extras.includes(ingredient.name)
               ? 'success'
               : 'tertiary'
           "
@@ -82,7 +84,7 @@
   </ion-card>
 
   <div class="buttons">
-    <ion-button (click)="addToCart()">
+    <ion-button (click)="addToOrder()">
       Add to cart
     </ion-button>
   </div>

@@ -9,36 +9,34 @@
   </ion-header>
 
   <ion-list>
-    <ion-item *ngFor="let entry of cart | keyvalue" lines="full">
+    {{order.foods}}
+    <ion-item *ngFor="let food of order.foods; index as i" lines="full">
       <ion-label>
         <ion-avatar slot="start">
-          <img [src]="entry.key.image" alt="" />
+          <img [src]="food.image" alt="" />
         </ion-avatar>
         <div class="rows">
-          <div class="name">{{ entry.key.name }}</div>
+          <div class="name">{{ food.name }}</div>
           <div class="ingredients">
-            <span *ngFor="let ingredient of entry.key.ingredients">
-              {{ ingredient.name }}
-            </span>
-            <span *ngFor="let ingredient of entry.key.extra_ingredients">
-              {{ ingredient.name }}
+            <span>
+              {{ food.ingredients.join(", ") }}
             </span>
           </div>
           <div class="details">
             <div class="amount">
               <ion-icon
-                (click)="remove(entry.key)"
+                (click)="remove(i)"
                 name="remove-circle-outline"
               ></ion-icon>
               <span>
-                {{ entry.value }}
+                {{ food.count }}
               </span>
               <ion-icon
-                (click)="add(entry.key)"
+                (click)="add(food)"
                 name="add-circle-outline"
               ></ion-icon>
             </div>
-            <div class="price">${{ entry.key.price * entry.value }}</div>
+            <div class="price">${{ food.price * food.count }}</div>
           </div>
         </div>
       </ion-label>
@@ -46,18 +44,14 @@
     <ion-item class="total-price" lines="none">
       <ion-label>
         <div>
-          <span>
-            Total:
-          </span>
-          <span>${{ getTotalPrice() }} </span>
+          <span> Total: </span>
+          <span>${{ order.price || "0" }} </span>
         </div>
       </ion-label>
     </ion-item>
   </ion-list>
 
   <div class="buttons">
-    <ion-button>
-      Order
-    </ion-button>
+    <ion-button (click)="sendOrder()"> Order </ion-button>
   </div>
 </ion-content>

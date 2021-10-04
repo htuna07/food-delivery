@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { StorageService } from "../service/storage.service";
 import { ModalController, ToastController } from "@ionic/angular";
+import { Food, Ingredient, Order } from "../bucket";
+import { OrderService } from "../service/order.service";
 
 @Component({
   selector: "app-details",
@@ -10,58 +11,67 @@ import { ModalController, ToastController } from "@ionic/angular";
 export class DetailsComponent implements OnInit {
   @Input() food: Food;
 
-  orderFood;
+  orderFood: any = {};
 
+  extras: string[] = [];
+  removeds: string[] = [];
   count = 1;
 
   constructor(
-    private storageService: StorageService,
+    private orderService: OrderService,
     private modalController: ModalController,
     private toastController: ToastController
   ) {}
 
   ngOnInit() {
-    this.orderFood = { ...this.food, extra_ingredients: [] };
+    this.orderFood = {
+      _id: this.food._id,
+      name: this.food.name,
+      ingredients: this.food.ingredients.map((i: Ingredient) => i.name),
+      price: this.food.price,
+      image:this.food.image
+    };
   }
 
-  addToCart() {
+  addToOrder() {
     this.toastController
       .create({
         message: "Successfully added to cart.",
         duration: 2000,
       })
       .then((toast) => toast.present());
-    this.storageService.addToCart(this.orderFood, this.count);
+
+    this.normalizeIngredients();
+    this.orderService.addToOrder({ ...this.orderFood }, this.count);
+    this.clearOrder();
     this.onDismiss();
   }
+  
+  normalizeIngredients() {
+    this.orderFood.ingredients.push(...this.extras);
+    this.orderFood.ingredients = this.orderFood.ingredients.filter(
+      (i: string) => !this.removeds.includes(i)
+    );
+  }
 
-  updateIngredients(ingredient: Ingredient, target: string) {
-    if (target == "defaults") {
-      let index = this.orderFood.ingredients.findIndex(
-        (ing) => ing._id == ingredient._id
-      );
-      if (index != -1) {
-        this.orderFood.ingredients = this.orderFood.ingredients.filter(
-          (ing) => ing._id != ingredient._id
-        );
-      } else {
-        this.orderFood.ingredients.push(ingredient);
-      }
-    } else if (target == "extras") {
-      let index = this.orderFood.extra_ingredients.findIndex(
-        (ing) => ing._id == ingredient._id
-      );
-      if (index != -1) {
-        this.orderFood.extra_ingredients = this.orderFood.extra_ingredients.filter(
-          (ing) => ing._id != ingredient._id
-        );
-      } else {
-        this.orderFood.extra_ingredients.push(ingredient);
-      }
+  updateIngredients(name: string, _target: "extras" | "removeds") {
+    const target = _target == "extras" ? this.extras : this.removeds;
+
+    const index = target.findIndex((i) => i == name);
+
+    if (index == -1) {
+      target.push(name);
+    } else {
+      target.splice(index, 1);
     }
   }
 
+  clearOrder() {
+    this.orderFood = {};
+  }
+
   onDismiss() {
+    this.orderFood = {};
     this.modalController.dismiss();
   }
 }

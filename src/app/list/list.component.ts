@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { FoodService } from "../service/food.service";
 import { ToastController, ModalController } from "@ionic/angular";
 import { DetailsComponent } from "../details/details.component";
+import { Food, food } from "../bucket";
 
 @Component({
   selector: "app-list",
@@ -10,7 +11,7 @@ import { DetailsComponent } from "../details/details.component";
   styleUrls: ["./list.component.scss"],
 })
 export class ListComponent implements OnInit {
-  foods: Observable<Food[]>;
+  foods: Promise<Food[]>;
 
   constructor(
     private foodService: FoodService,
@@ -19,7 +20,7 @@ export class ListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.foods = this.foodService.list();
+    this.foods = this.foodService.list(true);
   }
 
   openModal(food: Food) {

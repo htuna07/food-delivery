@@ -12,16 +12,17 @@ import { AppRoutingModule } from "./app-routing.module";
 import { ListComponent } from "./list/list.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { FormsModule } from "@angular/forms";
-import { CartComponent } from "./cart/cart.component";
-import { DetailsComponent } from './details/details.component';
+import { OrderComponent } from "./order/order.component";
+import { DetailsComponent } from "./details/details.component";
+import { initialize } from "./bucket";
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     ProfileComponent,
-    CartComponent,
-    DetailsComponent
+    OrderComponent,
+    DetailsComponent,
   ],
   entryComponents: [],
   imports: [
@@ -38,4 +39,8 @@ import { DetailsComponent } from './details/details.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    initialize({ apikey: "3c0k8e4crku8bufke" });
+  }
+}
